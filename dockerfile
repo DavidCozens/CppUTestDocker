@@ -4,7 +4,7 @@ WORKDIR /home/cpputest
 
 RUN git clone --depth 1 --branch v4.0 https://github.com/cpputest/cpputest.git . \
  && autoreconf . -i \
- && ./configure \
+ && ./configure  --enable-gmock\
  && make install
 
 ENV CPPUTEST_HOME=/home/cpputest
