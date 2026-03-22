@@ -1,10 +1,14 @@
-FROM davidcozens/googletest:4
+FROM gcc:14
 LABEL Description="Image for running CppUTest"
-WORKDIR /home/cpputest
 
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    autoconf automake libtool git cmake \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /home/cpputest
 RUN git clone --depth 1 --branch v4.0 https://github.com/cpputest/cpputest.git . \
  && autoreconf . -i \
- && ./configure  --enable-gmock\
+ && ./configure \
  && make install
 
 ENV CPPUTEST_HOME=/home/cpputest

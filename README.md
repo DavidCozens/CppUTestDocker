@@ -1,16 +1,33 @@
 # CppUTest Docker
 
-This repository contains the docker file and jenkins file for creating a docker image for running CppuTest code with gcc. The container is derived from my GoogleTest docker image, as CppuTest can also run GoogleTests.
+A base Docker image for TDD development with GCC and [CppUTest](http://cpputest.github.io/). Suitable for use across multiple C/C++ projects.
 
-* http://cpputest.github.io/
-* https://github.com/google/googletest
+## Contents
 
-As well as the test framework the image includeds James Grenning's legacy build toolkit
+- GCC 14 (via the official `gcc:14` base image)
+- CppUTest v4.0
+- CMake
+- [James Grenning's legacy-build toolkit](https://github.com/jwgrenning/legacy-build)
+- autoconf, automake, libtool
 
-* https://github.com/jwgrenning/legacy-build
-  
-To run tests execute the command below where <path> is the fully qualified path to the folder with your makefile and code.  
-  
-docker run -v <path>:/mnt davidcozens/cpputest make
+## Usage
 
-NOTE: The specific version of the image can also be referenced in build commands as davidcozens/cpputest:n where n is the build number
+Run tests by mounting your project directory (containing your `CMakeLists.txt` or `Makefile`) to `/home/src`:
+
+```
+docker run -v <path>:/home/src davidcozens/cpputest make
+```
+
+Where `<path>` is the fully qualified path to your project folder.
+
+The `CPPUTEST_HOME` environment variable is set to `/home/cpputest` inside the container.
+
+## Building
+
+The image is built automatically via Docker Hub on each push to the `main` branch.
+
+To build locally:
+
+```
+docker build -t cpputest .
+```
