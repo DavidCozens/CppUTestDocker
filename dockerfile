@@ -2,7 +2,7 @@ FROM gcc:14
 LABEL Description="Image for running CppUTest"
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake libtool git cmake \
+    autoconf automake libtool git cmake gdb \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/cpputest
