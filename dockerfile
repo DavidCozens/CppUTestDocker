@@ -4,7 +4,7 @@ LABEL Description="Image for running CppUTest"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake clang-format clang-tidy cmake cppcheck gdb git lcov libtool sudo \
+    autoconf automake clang clang-format clang-tidy cmake cppcheck gdb git lcov libtool sudo \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/cpputest
