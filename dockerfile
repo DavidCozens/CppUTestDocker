@@ -4,7 +4,16 @@ LABEL Description="Image for running CppUTest"
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake clang-format clang-tidy cmake cppcheck gdb git lcov libtool sudo \
+    ca-certificates curl \
+    && curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+        | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+    && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+        > /etc/apt/sources.list.d/github-cli.list \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    autoconf automake clang-format clang-tidy cmake cppcheck gdb gh git lcov libtool sudo \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/cpputest
@@ -34,3 +43,4 @@ RUN mkdir -p /home/src \
 USER ${USERNAME}
 
 WORKDIR /home/src
+
