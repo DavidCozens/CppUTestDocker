@@ -32,6 +32,12 @@ Where `<path>` is the fully qualified path to your project folder.
 
 The `CPPUTEST_HOME` environment variable is set to `/home/cpputest` inside the container.
 
+For production use and traceability, prefer a specific SHA tag over `latest`. Each build is tagged with the commit SHA it was built from (e.g. `sha-abc1234`). Available tags can be found on the [package page](https://github.com/davidcozens/CppUTestDocker/pkgs/container/cpputest):
+
+```
+docker run -v <path>:/home/src ghcr.io/davidcozens/cpputest:sha-<commit-sha> make
+```
+
 ## Building
 
 The image is built and pushed to the [GitHub Container Registry](https://ghcr.io) automatically on each push to the `main` branch.
