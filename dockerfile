@@ -1,4 +1,4 @@
-FROM gcc:14
+FROM debian:bookworm-slim
 LABEL Description="Image for running CppUTest"
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake clang-format clang-tidy cmake cppcheck gdb gh git lcov libtool sudo \
+    autoconf automake clang-format clang-tidy cmake cppcheck g++ gcc gdb gh git lcov libtool make sudo \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/cpputest
@@ -43,4 +43,3 @@ RUN mkdir -p /home/src \
 USER ${USERNAME}
 
 WORKDIR /home/src
-
