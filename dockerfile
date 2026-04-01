@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake clang-format clang-tidy cmake cppcheck g++ gcc gdb gh git lcov libtool make sudo \
+    autoconf automake clang-format clang-tidy cmake cppcheck g++ gcc gdb gh git lcov libtool make openssh-client sudo \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /home/cpputest
