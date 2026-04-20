@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake clang-format-19 clang-tidy-19 cmake cppcheck g++ gcc gdb gh git lcov libtool make openssh-client sudo \
+    autoconf automake clang-format-19 clang-tidy-19 cmake cppcheck g++ gcc gdb gh git lcov libssl-dev libtool make openssh-client sudo \
     && rm -rf /var/lib/apt/lists/*
 
 # Set clang-format-19 and clang-tidy-19 as defaults
