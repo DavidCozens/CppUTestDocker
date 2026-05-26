@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    autoconf automake clang-format-19 clang-tidy-19 cmake cppcheck g++ gcc gdb gh git lcov libssl-dev libtool make openssh-client sudo \
+    autoconf automake clang-19 clang-format-19 clang-tidy-19 cmake cppcheck g++ gcc gdb gh git lcov libclang-19-dev libssl-dev libtool llvm-19-dev make openssh-client sudo zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Set clang-format-19 and clang-tidy-19 as defaults
@@ -37,6 +37,18 @@ WORKDIR /home/legacy-build
 RUN git clone https://github.com/jwgrenning/legacy-build.git . \
  && git submodule update --init \
  && bash test/all-tests.sh
+
+# Build include-what-you-use against clang-19. The clang_19 branch matches
+# the installed Clang's library ABI; mismatched IWYU/Clang versions silently
+# produce wrong include suggestions because IWYU embeds Clang's parser.
+# Pinned to the same recipe as cpputest-clang so both images ship the same
+# IWYU binary.
+WORKDIR /tmp/iwyu
+RUN git clone --depth 1 --branch clang_19 https://github.com/include-what-you-use/include-what-you-use.git . \
+ && cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/lib/llvm-19 -DCMAKE_INSTALL_PREFIX=/usr/local \
+ && cmake --build build --parallel "$(nproc)" \
+ && cmake --install build \
+ && cd / && rm -rf /tmp/iwyu
 
 ARG USERNAME=developer
 ARG USER_UID=1000
